@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "0fpF7Xv0oWoxfdcpNsHIDHQS2RGIslKa2Dx8DTg2C0PAAmWpxFiR3KSvvn3pIhPbX2CCB0vygUogF8KPd0QIkQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\deepanshi\\Downloads\\FinalProject_RAD 6\\FinalProject_RAD\\FinalProject_RAD.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\deepanshi\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\deepanshi\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\deepanshi\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\deepanshi\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\deepanshi\\.nuget\\packages\\system.data.sqlclient\\4.9.0\\system.data.sqlclient.4.9.0.nupkg.sha512"
+  ],
+  "logs": []
+}
