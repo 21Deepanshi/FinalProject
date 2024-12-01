@@ -11,13 +11,11 @@ namespace FinalProject_RAD
 {
     public partial class Form1 : Form
     {
-        // for test
-        //private List<TaskItem> tasks = new List<TaskItem>();
         private BindingList<TaskItem> tasks = new BindingList<TaskItem>();
         private DatabaseManager databaseManager;
         //private string connectionString = "Data Source=DELLNIRIYA\\SQLEXPRESS; Initial Catalog= ToDoTasks; Integrated Security=True"; //Niriya
         private string connectionString = "Data Source= LAPTOPD\\SQLEXPRESS; Initial Catalog=ToDoTasks; Integrated Security=True"; //Deepanshi
-
+        private TextBox txtSearch;
 
         public Form1()
         {
@@ -132,6 +130,17 @@ namespace FinalProject_RAD
             clickedLabel.BackColor = Color.FromArgb(255, 130, 163);
             clickedLabel.ForeColor = Color.Black;
         }
+        private void InitializeSearchComponents()
+        {
+            btnSearch = new Button
+            {
+                Text = "Search",
+                Location = new Point(882, 7),
+                Size = new Size(80, 25)
+            };
+            btnSearch.Click += btnSearch_Click;
+            Controls.Add(btnSearch);
+        }
         private void calendarControl1_Load(object sender, EventArgs e)
         {
 
@@ -183,19 +192,6 @@ namespace FinalProject_RAD
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //// Check if the clicked cell is in the checkbox column (index 0 in your case)
-            //if (e.ColumnIndex == 0 && e.RowIndex >= 0)
-            //{
-            //    // Get the current value of the checkbox
-            //    DataGridViewCheckBoxCell checkBoxCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
-
-            //    // Toggle the checkbox value
-            //    if (checkBoxCell != null)
-            //    {
-            //        bool currentValue = Convert.ToBoolean(checkBoxCell.Value);
-            //        checkBoxCell.Value = !currentValue;
-            //    }
-            //}
             if (e.RowIndex >= 0) // Ensure a valid row is clicked
             {
                 TaskItem selectedTask = tasks[e.RowIndex]; // Get the selected task
@@ -226,6 +222,7 @@ namespace FinalProject_RAD
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitializeSearchComponents(); // Add the search controls
             lblAll.BackColor = Color.FromArgb(255, 130, 163);
             lblAll.ForeColor = Color.Black;
 
@@ -348,6 +345,66 @@ namespace FinalProject_RAD
 
                     MessageBox.Show("Task deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            // Check if the TextBox already exists
+            if (txtSearch == null)
+            {
+                // Dynamically create the TextBox
+                txtSearch = new TextBox
+                {
+                    Location = new Point(btnSearch.Location.X + +btnSearch.Height + 5, btnSearch.Location.Y), // Place it next to the button
+                    Size = new Size(200, 25),
+                    PlaceholderText = "Search tasks..."
+                };
+
+                // Add an event to search on pressing Enter
+                txtSearch.KeyDown += TxtSearch_KeyDown;
+
+                Controls.Add(txtSearch);
+                txtSearch.BringToFront(); // Ensure the TextBox is visible
+                txtSearch.Focus(); // Set focus to the TextBox
+            }
+            else
+            {
+                // If the TextBox already exists, perform the search
+                PerformSearch();
+            }
+        }
+        private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                PerformSearch();
+                e.Handled = true; // Prevent default behavior
+                e.SuppressKeyPress = true; // Prevent ding sound
+            }
+        }
+
+        private void PerformSearch()
+        {
+            if (txtSearch == null) return;
+
+            string searchTerm = txtSearch.Text.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                // If the search term is empty, display all tasks
+                dataGridView1.DataSource = tasks;
+            }
+            else
+            {
+                // Filter the tasks based on the search term
+                var filteredTasks = tasks.Where(task =>
+                    task.Description.ToLower().Contains(searchTerm) ||
+                    task.Category.ToLower().Contains(searchTerm) ||
+                    task.Status.ToLower().Contains(searchTerm)).ToList();
+
+                // Update the DataGridView with the filtered list
+                dataGridView1.DataSource = new BindingList<TaskItem>(filteredTasks);
             }
         }
     }
